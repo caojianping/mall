@@ -1,0 +1,52 @@
+<% layout("layout") -%>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/list.css" />') %>
+
+<header class="header clearfix">
+    <a class="header-side header-back" href="javascript:window.history.back(-1)"></a>
+    <h1 class="header-title">商品列表</h1>
+</header>
+
+<% if(Array.isArray(data) && data.length > 0){ %>
+<ul class="commodity-list">
+    <% data.forEach(function(item){ %>
+    <% var src = htmlHelper.buildImgSrc(item.imgs); %>
+    <li class="commodity-item underline">
+        <a class="clearfix" href="/commodity/detail?id=<%= item._id %>">
+            <figure class="figure figure-large fl">
+                <img src="<%= src %>" alt="<%= item.name %>">
+            </figure>
+            <dl class="commodity-info mrg-l100px">
+                <dt><%= item.name %></dt>
+                <dd>
+                    <label>产地：</label>
+                    <span><%= item.origin || "" %></span>
+                </dd>
+                <dd class="commodity-standards">
+                    <label>规格：</label>
+                    <% item.units.forEach(function(sitem, sindex){ %>
+                    <% var son = sindex === 0 ? "standard-item on": "standard-item"; %>
+                    <span class="<%= son %>"><%= sitem.standard %></span>
+                    <% }) %>
+                </dd>
+                <dd class="commodity-prices">
+                    <label>单价：</label>
+                    <% item.units.forEach(function(pitem, pindex){ %>
+                    <% var pon = pindex === 0 ? "price-item on": "price-item"; %>
+                    <span class="<%= pon %>">
+                        <strong>&yen;<%= pitem.price %></strong>
+                        <% if(pitem.discount < 1){ %>
+                        <mark class="discount"><%= (pitem.discount * 10).toFixed(2) %>折</mark>
+                        <% } %>
+                    </span>
+                    <% }) %>
+                </dd>
+            </dl>
+        </a>
+    </li>
+    <% }) %>
+</ul>
+<% }else{ %>
+<p class="none">暂无商品数据！</p>
+<% } %>
+
+<% block("scripts").append('<script src="/javascripts/list.js"></script>') %>

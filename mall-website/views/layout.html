@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/reset.css" />
+    <link rel="stylesheet" href="/stylesheets/common.css" />
+    <link rel="stylesheet" href="/stylesheets/button.css" />
+    <%- block("styles") %>
+</head>
+<body>
+<div class="main"><%- body -%></div>
+
+<% var navs = [
+{route:"/commodity/index",name:"首页",title:"七彩空间生活馆"},
+{route:"/commodity/category",name:"分类",title:"商品分类"},
+{route:"/cart/index",name:"购物车",title:"我的购物车"},
+{route:"/user/index",name:"我的",title:"个人中心"}
+]; %>
+<ul class="navs overline clearfix">
+    <% navs.forEach(function(item){ %>
+    <% var active = item.title === title ? "nav-item active": "nav-item"; %>
+    <li class="<%= active %>">
+        <a href="<%= item.route %>"><i></i><span><%= item.name %></span></a>
+    </li>
+    <% }) %>
+</ul>
+
+<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/javascripts/extension.js"></script>
+<script type="text/javascript" src="/javascripts/common.js"></script>
+<%- block("scripts") %>
+</body>
+</html>

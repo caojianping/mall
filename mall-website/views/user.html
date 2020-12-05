@@ -1,0 +1,28 @@
+<% layout("layout") -%>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/user.css"/>') %>
+
+<header class="header">
+    <h1 class="header-title align-center">个人中心</h1>
+</header>
+
+<section class="userinfo underline">
+    <a>
+        <% var avatar = "/images/user/default.gif", nickname = "";%>
+        <% if(data){ %>
+        <% avatar = data.avatar; %>
+        <% nickname = data.nickname; %>
+        <% } %>
+        <img src="<%= avatar %>" alt="<%= nickname %>">
+        <span><%= nickname %></span>
+    </a>
+</section>
+
+<ul class="link-list overline">
+    <li class="underline"><a class="arrow" href="/address/index">收货地址</a></li>
+    <li class="underline"><a class="arrow" href="/cart/index">我的购物车</a></li>
+    <li class="underline"><a class="arrow" href="/order/index?type=1">我的订单</a></li>
+    <li class="underline"><a class="arrow" href="/order/index?type=2">我的团单</a></li>
+</ul>
+
+<% block("scripts").append('<script src="/javascripts/geolocation.js"></script>') %>
+<% block("scripts").append('<script src="/javascripts/user.js"></script>') %>

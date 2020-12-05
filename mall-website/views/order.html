@@ -1,0 +1,120 @@
+<% layout("layout") -%>
+
+<header class="header clearfix">
+    <a class="header-side header-back" href="/user/index"></a>
+    <h1 class="header-title"><%= title %></h1>
+</header>
+
+<section class="order-navs">
+    <ul class="order-navs-list clearfix">
+        <% stateNavs.forEach(function(item){ %>
+        <% var style = "order-nav-item " + item.style; %>
+        <% var active = item.state === state.toString() ? style + " active": style; %>
+        <li class="<%= active %>">
+            <a href="/order/index?type=<%= type %>&state=<%= item.state %>"><%= item.text %></a>
+        </li>
+        <% }) %>
+    </ul>
+</section>
+
+<% if(Array.isArray(data) && data.length > 0){ %>
+<ul class="order-list">
+    <% data.forEach(function(item){ %>
+    <li class="order-item underline">
+        <header class="order-header clearfix">
+            <h2 class="order-title"><span class="text-gray">订单号：</span><%= item._id %></h2>
+            <a class="order-state text-gray"><%= stateConfig[item.state] %></a>
+        </header>
+        <section class="order-body">
+            <% if(type === 1){ %>
+            <% var total = 0; %>
+            <% var isSingle = item.details.length <= 1; %>
+            <ul class="order-details clearfix<%= isSingle?' single':'' %>">
+                <% item.details.forEach(function(ditem){ %>
+                <% var commodity = ditem.commodity || {}; %>
+                <% var unit = ditem.unit || {}; %>
+                <% var src = htmlHelper.buildImgSrc(commodity.imgs); %>
+                <li>
+                    <% if(!isSingle){ %>
+                    <figure class="figure figure-middle">
+                        <img src="<%= src %>" alt="<%= commodity.name %>"/>
+                    </figure>
+                    <p class="align-center"><%= commodity.name %>×<%= ditem.quantity %></p>
+                    <% }else{ %>
+                    <figure class="figure figure-middle fl">
+                        <img src="<%= src %>" alt="<%= commodity.name %>"/>
+                    </figure>
+                    <dl class="commodity-info mrg-l75px">
+                        <dt><%= commodity.name %></dt>
+                        <dd>
+                            <label>单价：</label>
+                            <strong class="text-red">&yen;<%= unit.price %></strong>
+                        </dd>
+                        <dd>
+                            <label>数量：</label>
+                            <span><%= ditem.quantity %></span>
+                        </dd>
+                    </dl>
+                    <% }%>
+                </li>
+                <% total += ditem.quantity; %>
+                <% }) %>
+            </ul>
+            <p class="order-statistic">共<%= total %>件商品，总计：
+                <strong>&yen;<%= item.total.toFixed(2) %></strong>
+            </p>
+
+            <% }else if(type === 2){ %>
+            <% var groupon = item.groupon || {}; %>
+            <% var commodity = groupon.commodity || {}; %>
+            <% var src = htmlHelper.buildImgSrc(commodity.imgs); %>
+            <ul class="order-details single clearfix">
+                <li>
+                    <figure class="figure figure-middle fl">
+                        <img src="<%= src %>" alt="<%= groupon.name %>"/>
+                    </figure>
+                    <dl class="commodity-info mrg-l75px">
+                        <dt><%= groupon.name %></dt>
+                        <dd>
+                            <label>单价：</label>
+                            <strong class="text-red">&yen;<%= groupon.price %></strong>
+                        </dd>
+                        <dd>
+                            <label>数量：</label>
+                            <span><%= item.quantity %></span>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+            <p class="order-statistic">共<%= item.quantity %>件商品，总计：
+                <strong>&yen;<%= item.total.toFixed(2) %></strong>
+            </p>
+            <% } %>
+        </section>
+
+        <!--订单操作-->
+        <% if(actions){ %>
+        <% var obj = actions[item.state]; %>
+        <% if(obj){ %>
+        <footer class="order-footer overline">
+            <% for(var key in obj){ %>
+            <% var value = obj[key], route = value.route, href = "javascript:void(0)"; %>
+            <% if(route === "/order/setState"){ %>
+            <% href = route + "/" + type + "/" + state + "/" + item._id + "/" + value.action; %>
+            <% }else if(route === "/order/pay"){ %>
+            <% href = route + "?type=" + type + "&id=" + item._id; %>
+            <% }%>
+            <a class="<%= value.class %>" href="<%= href %>"><%= key %></a>
+            <% } %>
+        </footer>
+        <% } %>
+        <% } %>
+
+    </li>
+    <% }) %>
+</ul>
+<% }else{ %>
+<p class="none">暂无订单数据！</p>
+<% } %>
+
+<% block("scripts").append('<script src="/javascripts/order.js"></script>') %>

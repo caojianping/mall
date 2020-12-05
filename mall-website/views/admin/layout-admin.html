@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=devie-width">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/admin/admin.css"/>
+    <link rel="stylesheet" href="/stylesheets/loader.css"/>
+    <%- block("styles") %>
+    <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default navs">
+    <div class="navbar-header">
+        <div class="navbar-brand">
+            <a href="/admin/commodity/index"><i class="fa fa-home mrg-r5px"></i>七彩空间生活馆</a>
+        </div>
+        <a class="toggle"><i class="fa fa-list"></i></a>
+    </div>
+
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-user fa-fw"></i>admin<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/admin/account/logout">注销</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<ul class="menus">
+    <% var menus = [
+        {route:"/admin/menu/index",name:"菜单管理",title:"菜单管理",icon:"fa-list"},
+        {route:"/admin/category/index",name:"分类管理",title:"分类管理",icon:"fa-list"},
+        {route:"/admin/commodity/index",name:"商品管理",title:"商品管理",icon:"fa-table"},
+        {route:"/admin/order/index",name:"订单管理",title:"订单管理",icon:"fa-file-text"},
+        {route:"/admin/groupon-order/index",name:"团单管理",title:"团单管理",icon:"fa-file-text"},
+        {route:"/admin/account/secure",name:"安全中心",title:"安全中心",icon:"fa-key"}
+    ]; %>
+    <% menus.forEach(function(item){ %>
+    <% var active = title === item.title ? "active": ""; %>
+    <li>
+        <a class="<%= active %>" href="<%= item.route %>">
+            <i class="fa <%= item.icon %>"></i>
+            <span><%= item.name %></span>
+        </a>
+    </li>
+    <% }); %>
+</ul>
+
+<article class="main">
+    <%- body -%>
+</article>
+
+<section class="loader">
+    <div class="loader-content clearfix">
+        <p class="loader-text">正在加载中</p>
+        <div class="loader-animate">
+            <i></i><i></i><i></i><i></i><i></i>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/javascripts/admin/$chttp.js"></script>
+<script type="text/javascript" src="/javascripts/admin/page.js"></script>
+<%- block("scripts") %>
+</body>
+</html>

@@ -1,0 +1,48 @@
+.main + .navs {
+    display: none;
+}
+
+.panel {
+    left: 100%;
+}
+
+.order-address {
+    padding: 10px 15px;
+    background-color: white;
+}
+
+.order-address a.arrow {
+    display: block;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+.order-address a.arrow:after,
+.order-address p.arrow:after {
+    top: 8px;
+    right: 3px;
+}
+
+.bind-address p,
+.address-list .address-item p {
+    line-height: 1.8;
+}
+
+.address-list {
+    margin-bottom: 45px;
+}
+
+.address-list .address-item {
+    padding: 10px 0;
+}
+
+.address-list .address-item .checkbox {
+    position: absolute;
+    top: 25px;
+    right: 10px;
+}
+
+.confirm-item {
+    padding: 15px;
+    background-color: white;
+}

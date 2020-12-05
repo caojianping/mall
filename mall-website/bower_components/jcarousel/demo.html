@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>jcarousel测试</title>
+    <link rel="stylesheet" type="text/css" href="jcarousel.css" />
+</head>
+<body>
+<div class="jcarousel" id="test1">
+    <a class="jcarousel-control prev"><</a>
+    <a class="jcarousel-control next">></a>
+    <ul class="jcarousel-list">
+        <li class="jcarousel-item" data-index="0">
+            <a class="jcarousel-link" href="#">
+                <img class="jcarousel-img" src="images/demo01.jpg" alt="demo01" />
+                <p class="jcarousel-caption">标题一<span>1/3</span></p>
+            </a>
+        </li>
+        <li class="jcarousel-item" data-index="1">
+            <a class="jcarousel-link" href="#">
+                <img class="jcarousel-img" src="images/demo02.jpg" alt="demo02" />
+                <p class="jcarousel-caption">标题二<span>2/3</span></p>
+            </a>
+        </li>
+        <li class="jcarousel-item" data-index="2">
+            <a class="jcarousel-link" href="#">
+                <img class="jcarousel-img" src="images/demo03.jpg" alt="demo03" />
+                <p class="jcarousel-caption">标题三<span>3/3</span></p>
+            </a>
+        </li>
+    </ul>
+</div>
+<p>
+    <button id="start1">启用</button>
+    <button id="stop1">禁用</button>
+</p>
+<p>
+    <button id="startAuto1">启用自动轮播</button>
+    <button id="stopAuto1">禁用自动轮播</button>
+</p>
+<br>
+
+<div class="jcarousel" id="test2">
+    <a class="jcarousel-control prev"><</a>
+    <a class="jcarousel-control next">></a>
+    <ul class="jcarousel-list">
+        <li class="jcarousel-item" data-index="0">
+            <a class="jcarousel-link" href="#">
+                <img class="jcarousel-img" src="images/demo01.jpg" alt="demo01" />
+                <p class="jcarousel-caption">标题一</p>
+            </a>
+        </li>
+        <li class="jcarousel-item" data-index="1">
+            <a class="jcarousel-link" href="#">
+                <img class="jcarousel-img" src="images/demo02.jpg" alt="demo02" />
+                <p class="jcarousel-caption">标题二</p>
+            </a>
+        </li>
+        <li class="jcarousel-item" data-index="2">
+            <a class="jcarousel-link" href="#">
+                <img class="jcarousel-img" src="images/demo03.jpg" alt="demo03" />
+                <p class="jcarousel-caption">标题三</p>
+            </a>
+        </li>
+    </ul>
+</div>
+<p>
+    <button id="start2">启用</button>
+    <button id="stop2">禁用</button>
+</p>
+<p>
+    <button id="startAuto2">启用自动轮播</button>
+    <button id="stopAuto2">禁用自动轮播</button>
+</p>
+<br>
+
+<div class="jcarousel" id="test3">
+    <ul class="jcarousel-list">
+        <li class="jcarousel-item" data-index="0">
+            <a class="jcarousel-link" href="#">
+                <img class="jcarousel-img" src="images/demo01.jpg" alt="demo01" />
+            </a>
+        </li>
+        <li class="jcarousel-item" data-index="1">
+            <a class="jcarousel-link" href="#">
+                <img class="jcarousel-img" src="images/demo02.jpg" alt="demo02" />
+            </a>
+        </li>
+        <li class="jcarousel-item" data-index="2">
+            <a class="jcarousel-link" href="#">
+                <img class="jcarousel-img" src="images/demo03.jpg" alt="demo03" />
+            </a>
+        </li>
+    </ul>
+    <a class="jcarousel-control prev"><</a>
+    <a class="jcarousel-control next">></a>
+    <ol class="jcarousel-indicator"></ol>
+</div>
+
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="touch.min.js"></script>
+<script src="jcarousel.js"></script>
+<script type="text/javascript">
+    function test1() {
+        $("#test1").jcarousel({
+            width: 300,
+            height: 150,
+            showCount: 2,
+            autoplay: true,
+            speed: 2000,
+            mobile: true
+        });
+        $("#start1").click(function () {
+            $("#test1").jcarousel("enable");
+        });
+        $("#stop1").click(function () {
+            $("#test1").jcarousel("disable");
+        });
+        $("#startAuto1").click(function () {
+            $("#test1").jcarousel("auto", true);
+        });
+        $("#stopAuto1").click(function () {
+            $("#test1").jcarousel("auto", false);
+        });
+    }
+
+    function test2() {
+        $("#test2").jcarousel({
+            width: '100%',
+            height: 300,
+            showCount: 1,
+            autoplay: true,
+            speed: 2000,
+            mobile: false,
+        });
+        $("#start2").click(function () {
+            $("#test2").jcarousel("enable");
+        });
+        $("#stop2").click(function () {
+            $("#test2").jcarousel("disable");
+        });
+        $("#startAuto2").click(function () {
+            $("#test2").jcarousel("auto", true);
+        });
+        $("#stopAuto2").click(function () {
+            $("#test2").jcarousel("auto", false);
+        });
+    }
+
+    function test3() {
+        $("#test3").jcarousel({
+            width: "100%",
+            imageScale: 1,
+            showCount: 1,
+            autoplay: true,
+            speed: 2000,
+            mobile: true,
+            indicator: true,
+        });
+    }
+
+    $(function () {
+        test1();
+        test2();
+        test3();
+    });
+</script>
+</body>
+</html>

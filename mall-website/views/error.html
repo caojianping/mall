@@ -1,0 +1,8 @@
+<% layout("layout_error") -%>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/error.css"/>') %>
+
+<section class="error">
+    <div class="error-img"></div>
+    <p class="error-msg"><%= message %></p>
+    <p class="error-help">刷新屏幕，重新加载</p>
+</section>

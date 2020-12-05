@@ -1,0 +1,6 @@
+{
+  "mongodb": "mongodb://localhost:27017/mall",
+  "port": 5000,
+  "logPath": "./logs/",
+  "dataPath": "../data"
+}

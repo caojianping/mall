@@ -1,0 +1,77 @@
+.main + .navs {
+    display: none;
+}
+
+.jcarousel .jcarousel-list .jcarousel-item a.jcarousel-link {
+    margin: 0 auto;
+}
+
+.block {
+    display: block;
+    border-top: 5px solid rgb(242, 242, 242);
+}
+
+.block .block-header {
+}
+
+.block .block-header .block-title,
+.block .block-header .block-more {
+    height: 40px;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+.block .block-header .block-title {
+    font-size: 16px;
+    font-weight: normal;
+    text-indent: 15px;
+}
+
+.block .block-header .block-more {
+    padding-right: 22px;
+    float: right;
+    font-size: 14px;
+    color: gray;
+}
+
+.block .block-header .block-more.arrow:after {
+    top: 14px;
+    right: 10px;
+}
+
+.commodity-info {
+    margin: 10px 15px;
+}
+
+.footer .footer-item {
+    padding: 0 5px;
+    font-size: 14px;
+}
+
+#cartStatus {
+    position: relative;
+    padding: 0 5px 0 0;
+    width: 40px;
+    background: white url("../images/navs/navs_cart_active.svg") no-repeat center center;
+    background-size: 28px 28px;
+    background-clip: content-box;
+    background-origin: content-box;
+}
+
+#cartQuantity {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    z-index: 2;
+    display: block;
+    padding: 3px 6px;
+    font-size: 12px;
+    line-height: 16px;
+    color: white;
+    text-align: center;
+    border-radius: 100%;
+}
+
+#wtotal {
+    font-size: 16px;
+}

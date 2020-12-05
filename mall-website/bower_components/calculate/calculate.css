@@ -1,0 +1,57 @@
+.calculate {
+    font-size: 0;
+    border: 1px solid #cbcbcb;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.calculate .calculate-sub,
+.calculate .calculate-quantity,
+.calculate .calculate-add {
+    position: relative;
+    display: inline-block;
+    width: 26px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+    background-color: white;
+}
+
+.calculate .calculate-sub:after,
+.calculate .calculate-add:after {
+    position: absolute;
+    top: 11px;
+    left: 7px;
+    width: 12px;
+    height: 2px;
+    content: "";
+    background-color: gray;
+    cursor: pointer;
+}
+
+.calculate .calculate-add:before {
+    position: absolute;
+    top: 6px;
+    left: 12px;
+    width: 2px;
+    height: 12px;
+    content: "";
+    background-color: gray;
+    cursor: pointer;
+}
+
+.calculate .calculate-quantity {
+    margin: 0;
+    padding: 0;
+    width: 34px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 0;
+    border: none;
+    outline: none;
+    border-left: 1px solid #cbcbcb;
+    border-right: 1px solid #cbcbcb;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}

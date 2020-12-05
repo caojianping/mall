@@ -1,0 +1,132 @@
+<% layout("layout") -%>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/confirm.css"/>') %>
+
+<input type="hidden" name="type" value="<%= type %>">
+
+<header class="header clearfix">
+    <a class="header-side header-back" href="javascript:window.history.back();"></a>
+    <% var title = type === 1 ? "商品": "团购"; %>
+    <h1 class="header-title">确认<%= title %>订单</h1>
+</header>
+
+<% if(data){ %>
+<% var addresses = data.addresses; %>
+<section class="order-address">
+    <% if(Array.isArray(addresses) && addresses.length > 0){ %>
+    <% var defaultAddress = addresses.filter(function(item){ return item.isDefault; })[0]; %>
+    <% var ndisplay = defaultAddress ? "display:none": "display:block"; %>
+    <% var bdisplay = defaultAddress ? "display:block": "display:none"; %>
+    <a class="arrow text-prompt" style="<%= ndisplay %>">亲，您还没有绑定收货地址！</a>
+    <% var bindAddress = defaultAddress || {}; %>
+    <div class="bind-address" style="<%= bdisplay %>" data-address="<%= JSON.stringify(bindAddress) %>">
+        <p class="arrow">
+            <span class="address-linkman"><%= bindAddress.linkman || "" %></span>
+            <strong class="address-contact"><%= bindAddress.contact || "" %></strong>
+            <i class="address-default text-red"><%= !!bindAddress.isDefault ? "[默认地址]": "" %></i>
+        </p>
+        <p>
+            <mark class="address-mark text-orange"><%= bindAddress.mark ? "[" + defaultAddress.mark + "]": "" %></mark>
+            <span class="address-location text-gray"><%= bindAddress.location || "" %></span>
+        </p>
+    </div>
+    <% }else{ %>
+    <a class="arrow text-prompt" href="/address/index?from=confirm&type=<%= type %>">亲，您还没有添加收货地址！</a>
+    <% } %>
+</section>
+
+<section class="panel">
+    <header class="panel-header clearfix ">
+        <a class="panel-side panel-close"></a>
+        <h1 class="panel-title header-title">绑定收货地址</h1>
+    </header>
+    <div class="panel-body">
+        <ul class="address-list">
+            <% addresses.forEach(function(item){ %>
+            <li class="address-item underline" data-address="<%= JSON.stringify(item) %>">
+                <p>
+                    <span class="address-linkman"><%= item.linkman %></span>
+                    <strong class="address-contact"><%= item.contact %></strong>
+                    <i class="address-default text-red"><%= item.isDefault ? "[默认地址]": "" %></i>
+                </p>
+                <p>
+                    <mark class="address-mark text-orange"><%= item.mark ? "[" + item.mark + "]": "" %></mark>
+                    <span class="address-location text-gray"><%= item.location %></span>
+                </p>
+                <label class="checkbox" data-id="<%= item._id %>">
+                    <i class="checkbox-icon"></i>
+                </label>
+            </li>
+            <% }) %>
+        </ul>
+    </div>
+</section>
+
+<div class="line"></div>
+
+<% var total = 0; %>
+<% if(type === 1){ %>
+<% var carts = data.carts || []; %>
+<!--商品订单-->
+
+<% carts.forEach(function(item){ %>
+<% var unit = item.unit || {}; %>
+<% var money = (unit.price || 0) * (unit.discount || 1) * item.quantity; %>
+<section class="confirm-item clearfix overline" data-cart="<%= JSON.stringify(item) %>">
+    <% var commodity = item.commodity || {}; %>
+    <% var src = htmlHelper.buildImgSrc(commodity.imgs); %>
+    <figure class="figure figure-middle fl">
+        <img src="<%= src %>" alt="<%= commodity.name %>"/>
+    </figure>
+    <dl class="commodity-info mrg-l75px">
+        <dt><%= commodity.name %></dt>
+        <dd>
+            <label>数量：</label>
+            <span>×<%= item.quantity %></span>
+        </dd>
+        <dd>
+            <label>小计：</label>
+            <strong class="text-red">&yen;<%= money.toFixed(2) %></strong>
+        </dd>
+    </dl>
+</section>
+<% total += money; %>
+<% }) %>
+
+<% }else if(type === 2){ %>
+<!--团购订单-->
+<% var openGroupon = data.openGroupon; %>
+<% if(openGroupon){ %>
+<% var groupon = openGroupon.groupon; %>
+<% if(groupon){ %>
+<% total = groupon.price * data.quantity; %>
+<% var commodity = groupon.commodity || {}; %>
+<% var src = htmlHelper.buildImgSrc(commodity.imgs); %>
+<input type="hidden" name="quantity" value="<%= data.quantity %>">
+<section class="confirm-item" data-opengroupon="<%= JSON.stringify(openGroupon) %>">
+    <figure class="figure figure-middle fl">
+        <img src="<%= src %>" alt="<%= commodity.name %>"/>
+    </figure>
+    <dl class="commodity-info mrg-l75px">
+        <dt><%= groupon.name %></dt>
+        <dd>
+            <label>数量：</label>
+            <span>×<%= data.quantity %></span>
+        </dd>
+        <dd>
+            <label>小计：</label>
+            <strong class="text-red">&yen;<%= total.toFixed(2) %></strong>
+        </dd>
+    </dl>
+</section>
+<% } %>
+<% } %>
+<% } %>
+
+<% } %>
+
+<footer class="footer overline clearfix">
+    <a class="footer-item fr bg-red text-white" id="submit">提交订单</a>
+    <a class="footer-item fr bg-white text-red">实付款：&yen;<%= total.toFixed(2) %></a>
+</footer>
+
+<% block("scripts").append('<script src="/javascripts/confirm.js"></script>') %>

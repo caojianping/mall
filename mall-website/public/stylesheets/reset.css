@@ -1,0 +1,221 @@
+﻿/*重置样式*/
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+label,
+ol,
+ul,
+li,
+dl,
+dt,
+dd,
+div,
+form,
+fieldset,
+legend,
+figure,
+pre {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 14px;
+    font-family: Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    color: #333;
+    background-color: white;
+}
+
+header,
+footer,
+nav,
+section {
+    display: block;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+cite,
+mark {
+    font-style: normal;
+    background-color: white;
+}
+
+/*清除浮动样式*/
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:after {
+    display: block;
+    height: 0;
+    content: ".";
+    visibility: hidden;
+    overflow: hidden;
+    clear: both;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+/*文字颜色样式*/
+.text-red {
+    color: #f23030;
+}
+
+.text-orange {
+    color: #ff5a00;
+}
+
+.text-blue {
+    color: #47a4f4;
+}
+
+.text-gray {
+    color: #8f8f8f;
+}
+
+.text-white {
+    color: white;
+}
+
+/*背景颜色样式*/
+.bg-red {
+    background-color: #f23030;
+}
+
+.bg-orange {
+    background-color: #ff5a00;
+}
+
+.bg-yellow {
+    background-color: #ff9500;
+}
+
+.bg-green {
+    background-color: #43cd80;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+/*文本对齐样式*/
+.align-left {
+    text-align: left;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+/*margin样式*/
+.mrg-l75px {
+    margin-left: 75px;
+}
+
+.mrg-l100px {
+    margin-left: 100px;
+}
+
+.mrg-l120px {
+    margin-left: 120px;
+}
+
+/*宽高样式*/
+.wh40px {
+    width: 40px;
+    height: 40px;
+}
+
+.wh65px {
+    width: 65px;
+    height: 65px;
+}
+
+.wh90px {
+    width: 90px;
+    height: 90px;
+}
+
+.wh110px {
+    width: 110px;
+    height: 110px;
+}
+
+/*细线样式*/
+.overline,
+.underline {
+    position: relative;
+}
+
+.overline:before,
+.underline:after {
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    display: block;
+    content: "";
+    border: none;
+    border-top: 1px solid #e2e2e6;
+    -webkit-transform: scaleY(.5);
+    -moz-transform: scaleY(.5);
+    -ms-transform: scaleY(.5);
+    -o-transform: scaleY(.5);
+    transform: scaleY(.5);
+    transform-origin: 0 0;
+}
+
+.overline:before {
+    top: 0;
+}
+
+.underline:after {
+    bottom: 0;
+}
+
+/*细线样式*/
+.navs.overline,
+.footer.overline {
+    position: fixed;
+    z-index: 1000;
+}
+
+/*暂无数据样式*/
+.none {
+    padding: 30px 0;
+    font-size: 16px;
+    color: #ff9500;
+    text-align: center;
+}

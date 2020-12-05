@@ -1,0 +1,27 @@
+.main + .navs {
+    display: none;
+}
+
+.pay-list {
+}
+
+.pay-list .pay-item {
+    padding: 15px;
+    font-size: 16px;
+}
+
+.pay-list .pay-item:last-child {
+    padding-top: 0;
+}
+
+#pay {
+    display: block;
+    margin: 30px auto;
+    padding: 10px 0;
+    width: 80%;
+    font-size: 16px;
+    color: white;
+    background-color: #10bd51;
+    border: 1px solid #10bd51;
+    border-radius: 5px;
+}

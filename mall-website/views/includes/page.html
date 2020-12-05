@@ -1,0 +1,20 @@
+<section class="cpage">
+    <ul class="pagination pagination-lg">
+        <li><a href="javascript:void(0)" ng-click="pageFirst()" title="首页">&lsaquo;</a></li>
+        <li><a href="javascript:void(0)" ng-click="pageUp()" title="上一页">&laquo;</a></li>
+        <li ng-repeat="number in pageNumberList" ng-class="{active: selectedNumber === number}">
+            <a href="javascript:void(0)" ng-click="pageNumber(number)">{{number}}</a>
+        </li>
+        <li><a href="javascript:void(0)" ng-click="pageDown()" title="下一页">&raquo;</a></li>
+        <li><a href="javascript:void(0)" ng-click="pageLast()" title="尾页">&rsaquo;</a></li>
+    </ul>
+
+    <div class="cpage-size">
+        <label for="" class="control-label">每页记录数：</label>
+        <select class="form-control" ng-model="querystring.pageSize" ng-change="pageSize()" name="" id="">
+            <option class="{{item.style}}" value="{{item.value}}"
+                    ng-repeat="item in pageSizeList" ng-selected="querystring.pageSize===item.value">{{item.name}}
+            </option>
+        </select>
+    </div>
+</section>

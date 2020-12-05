@@ -1,0 +1,90 @@
+<% layout("layout") -%>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/search.css" />') %>
+
+<header class="header clearfix">
+    <a class="header-side header-back" href="javascript:window.history.back();"></a>
+    <form class="search-form" id="searchForm" action="/commodity/search" method="post">
+        <section class="search-container">
+            <input class="search-keyword" type="text" name="keyword" value='<%= keyword || "" %>'/>
+            <i class="search-once">搜一下</i>
+            <a class="search-reset" href="/commodity/search"></a>
+        </section>
+    </form>
+</header>
+
+<!--浏览历史-->
+<section class="spanel spanel-history">
+    <header class="spanel-header clearfix">
+        <h3 class="spanel-title">浏览历史</h3>
+        <a class="spanel-clear">清空历史</a>
+    </header>
+    <div class="spanel-body">
+        <ul class="history-list"></ul>
+    </div>
+</section>
+
+<!--热门搜索-->
+<section class="spanel spanel-hot">
+    <header class="spanel-header clearfix">
+        <h3 class="spanel-title">热门搜索</h3>
+    </header>
+    <div class="spanel-body">
+        <% if(Array.isArray(hotList) && hotList.length > 0){ %>
+        <ul class="hot-list">
+            <% hotList.forEach(function(item,index){ %>
+            <li data-value="<%= item.name %>">
+                <span class="hot-num"><%= index + 1 %></span>
+                .<%= item.name %>
+                <mark class="hot-mark">hot</mark>
+            </li>
+            <% }) %>
+        </ul>
+        <% }else{ %>
+        <p class="none">暂无热门数据！</p>
+        <% } %>
+    </div>
+</section>
+
+<!--搜索数据-->
+<% if(Array.isArray(data)){ %>
+<section class="searches">
+    <% if(data.length > 0){ %>
+    <table class="search-table">
+        <% data.forEach(function(item){ %>
+        <% var src = htmlHelper.buildImgSrc(item.imgs); %>
+        <% var units = item.units; %>
+        <tr class="search-item" data-id="<%= item._id %>">
+            <td>
+                <figure class="figure figure-small">
+                    <img src="<%= src %>" alt="<%= item.name %>">
+                </figure>
+            </td>
+            <td><%= item.name %></td>
+            <td>
+                <ul>
+                    <% units.forEach(function(uitem){ %>
+                    <li>
+                        <strong class="text-red">&yen;<%= uitem.price.toFixed(2) %></strong>/<%= uitem.standard %>
+                        <% if(uitem.discount < 1){ %>
+                        <span class="discount"><%= (uitem.discount * 10).toFixed(2) %>折</span>
+                        <% } %>
+                    </li>
+                    <% }) %>
+                </ul>
+            </td>
+        </tr>
+        <% }) %>
+    </table>
+    <% }else{ %>
+    <p class="none">暂无搜索数据！</p>
+    <% } %>
+</section>
+<% } %>
+
+<!--提示数据-->
+<section class="suggests">
+    <ul class="suggest-list"></ul>
+</section>
+
+<% block("scripts").append('<script src="/javascripts/cookie.js"></script>') %>
+<% block("scripts").append('<script src="/javascripts/search.js"></script>') %>

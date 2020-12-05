@@ -1,0 +1,128 @@
+<% layout("layout") -%>
+<% block("styles").append('<link rel="stylesheet" href="/bower_components/jcarousel/jcarousel.css"/>') %>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/index.css"/>') %>
+
+<header class="header">
+    <section class="search">
+        <a class="search-link" href="/commodity/search">美好生活，从七彩生活开始！</a>
+    </section>
+</header>
+
+<!--团购专区-->
+<% if(Array.isArray(grouponList) && grouponList.length > 0){ %>
+<section class="jcarousel" id="grouponList">
+    <ul class="jcarousel-list">
+        <% var count = grouponList.length; %>
+        <% grouponList.forEach(function(item, index){ %>
+        <% var commodity = item.commodity || {}; %>
+        <% var src = htmlHelper.buildImgSrc(commodity.imgs); %>
+        <li class="jcarousel-item" data-index="<%= index %>">
+            <a class="jcarousel-link" href="/commodity/detail?id=<%= commodity._id %>">
+                <img class="jcarousel-img" src="<%= src %>" alt="<%= item.name %>">
+                <p class="jcarousel-caption"><%= item.name %><span><%= (index+1)+"/"+count %></span></p>
+            </a>
+        </li>
+        <% }) %>
+    </ul>
+    <ol class="jcarousel-indicator"></ol>
+</section>
+<% } %>
+
+<!--优惠专区-->
+<% if(Array.isArray(discountList) && discountList.length > 0){ %>
+<section class="block">
+    <header class="block-header">
+        <h2 class="block-title">优惠专区</h2>
+    </header>
+    <div class="block-body">
+        <section class="jcarousel" id="discountList">
+            <ul class="jcarousel-list">
+                <% discountList.forEach(function(item, index){ %>
+                <% var src = htmlHelper.buildImgSrc(item.imgs); %>
+                <% var unit = item.units[0]; %>
+                <li class="jcarousel-item" data-index="<%= index %>">
+                    <a class="jcarousel-link" href="/commodity/detail?id=<%= item._id %>">
+                        <img class="jcarousel-img" src="<%= src %>" alt="<%= item.name %>">
+                        <dl class="commodity-info">
+                            <dt><%= item.name %></dt>
+                            <dd><strong class="text-red">&yen;<%= unit.price.toFixed(2)%></strong>/<%= unit.standard %></dd>
+                            <% if(unit.discount < 1){ %>
+                            <dd><span class="discount"><%= (unit.discount * 10).toFixed(2) %>折</span></dd>
+                            <% } %>
+                        </dl>
+                    </a>
+                </li>
+                <% }) %>
+            </ul>
+            <ol class="jcarousel-indicator"></ol>
+        </section>
+    </div>
+</section>
+<% } %>
+
+<!--热销专区-->
+<% if(Array.isArray(hotList) && hotList.length > 0){ %>
+<section class="block">
+    <header class="block-header">
+        <h2 class="block-title">热销专区</h2>
+    </header>
+    <div class="block-body">
+        <section class="jcarousel" id="hotList">
+            <ul class="jcarousel-list">
+                <% hotList.forEach(function(item, index){ %>
+                <% var src = htmlHelper.buildImgSrc(item.imgs); %>
+                <li class="jcarousel-item" data-index="<%= index %>">
+                    <a class="jcarousel-link" href="/commodity/detail?id=<%= item._id %>">
+                        <img class="jcarousel-img" src="<%= src %>" alt="<%= item.name %>">
+                        <p class="jcarousel-caption"><%= item.name %></p>
+                    </a>
+                </li>
+                <% }) %>
+            </ul>
+            <ol class="jcarousel-indicator"></ol>
+        </section>
+    </div>
+</section>
+<% } %>
+
+<!--商品列表-->
+<% if(Array.isArray(data) && data.length > 0){ %>
+<ul class="commodity-list">
+    <% data.forEach(function(item){ %>
+    <% var src = htmlHelper.buildImgSrc(item.imgs); %>
+    <% var unit = item.units[0]; %>
+    <li class="commodity-item">
+        <a class="clearfix" href="/commodity/detail?id=<%= item._id %>">
+            <figure class="figure figure-square figure-huge fl">
+                <img src="<%= src %>" alt="<%= item.name %>">
+            </figure>
+            <dl class="commodity-info mrg-l120px">
+                <dt><%= item.name %></dt>
+                <dd>
+                    <label>产地：</label>
+                    <span><%= item.origin || "" %></span>
+                </dd>
+                <dd>
+                    <label>规格：</label>
+                    <span><%= unit.standard %></span>
+                </dd>
+                <dd>
+                    <label>单价：</label>
+                    <strong class="text-red">&yen;<%= unit.price.toFixed(2) %></strong>
+                </dd>
+                <% if(unit.discount < 1){ %>
+                <dd>
+                    <label>折扣：</label>
+                    <span class="discount"><%= (unit.discount * 10).toFixed(2) %>折</span>
+                </dd>
+                <% } %>
+            </dl>
+        </a>
+    </li>
+    <% }) %>
+</ul>
+<% } %>
+
+<% block("scripts").append('<script src="/bower_components/jcarousel/touch.min.js"></script>') %>
+<% block("scripts").append('<script src="/bower_components/jcarousel/jcarousel.js"></script>') %>
+<% block("scripts").append('<script src="/javascripts/index.js"></script>') %>

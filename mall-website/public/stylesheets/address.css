@@ -1,0 +1,81 @@
+.main + .navs {
+    display: none;
+}
+
+.address-list {
+    padding: 0 15px;
+}
+
+.address-list .address-item {
+    padding: 10px 0;
+    text-decoration: none;
+    background: white url("../images/address/edit.svg") no-repeat right center;
+    background-size: 16px 16px;
+}
+
+.address-list .address-item p {
+    margin-right: 26px;
+    line-height: 1.8;
+}
+
+.panel ul li {
+    padding: 15px 0;
+}
+
+.panel ul li:last-child {
+    border-bottom: none;
+}
+
+.panel ul li label {
+    display: inline-block;
+    width: 80px;
+    font-size: 16px;
+}
+
+.panel ul li [type="text"],
+.panel ul li textarea {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    color: darkgray;
+    background-color: white;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.panel ul li textarea {
+    width: 200px;
+    height: 50px;
+    vertical-align: top;
+}
+
+.panel ul li [type="submit"] {
+    display: block;
+    width: 100%;
+    margin: auto;
+    padding: 10px 0;
+    font-size: 16px;
+    color: white;
+    letter-spacing: 5px;
+    background-color: #43cd80;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+}
+
+#add {
+    display: block;
+}
+
+#remove {
+    margin-right: 10px;
+    font-size: 15px;
+    color: white;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}

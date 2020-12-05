@@ -1,0 +1,40 @@
+.main + .navs {
+    display: none;
+}
+
+#cartForm {
+    padding: 10px;
+}
+
+.cart-table {
+    width: 100%;
+}
+
+.cart-table .cart-item {
+    border-bottom: 1px solid #e2e2e6;
+}
+
+.cart-table .cart-item td {
+    padding: 10px 0;
+}
+
+.cart-table .cart-item td:nth-child(1) {
+    width: 30px;
+}
+
+.cart-table .cart-item td:nth-child(2) {
+    width: 95px;
+}
+
+.cart-table .cart-item td:nth-child(3) {
+    text-align: left;
+}
+
+#edit {
+    padding: 0 15px;
+}
+
+#remove {
+    display: none;
+    padding: 0 15px;
+}

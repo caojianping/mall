@@ -1,0 +1,148 @@
+.main + .navs {
+    display: none;
+}
+
+/*搜索面板样式*/
+.spanel {
+}
+
+.spanel .spanel-header {
+    padding: 0 15px;
+}
+
+.spanel .spanel-header .spanel-title,
+.spanel .spanel-header .spanel-clear {
+    height: 30px;
+    font-size: 14px;
+    line-height: 30px;
+    font-weight: normal;
+}
+
+.spanel .spanel-header .spanel-title {
+    float: left;
+    color: #8f8f8f;
+}
+
+.spanel .spanel-header .spanel-clear {
+    float: right;
+    color: coral;
+    cursor: pointer;
+}
+
+.spanel .spanel-body,
+.searches,
+.suggests {
+    padding: 0 15px;
+}
+
+/*搜索框样式*/
+.search-form {
+    display: block;
+    padding: 6px 0;
+    margin-left: 36px;
+    margin-right: 15px;
+}
+
+.search-form .search-container {
+    padding: 1px;
+    background-color: white;
+}
+
+.search-form .search-container .search-keyword {
+    display: inline-block;
+    width: 150px;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    text-indent: 5px;
+    line-height: 28px;
+    border: none;
+    outline: none;
+}
+
+.search-form .search-container .search-once {
+    display: inline-block;
+    float: right;
+    height: 30px;
+    padding: 0 10px;
+    font-size: 16px;
+    color: white;
+    line-height: 30px;
+    background-color: #12bf54;
+}
+
+.search-form .search-container .search-reset {
+    display: inline-block;
+    float: right;
+    width: 26px;
+    height: 30px;
+    background: url("../images/search/delete.svg") no-repeat center center;
+    background-size: 12px 12px;
+}
+
+/*热门搜索样式*/
+.hot-list {
+    display: block;
+}
+
+.hot-list li .hot-num {
+    color: #8f8f8f;
+}
+
+.hot-list li:first-child .hot-num {
+    color: #fb553f;
+}
+
+.hot-list li:nth-child(2) .hot-num {
+    color: #ff753f;
+}
+
+.hot-list li:nth-child(3) .hot-num {
+    color: #fba247;
+}
+
+.hot-list li .hot-mark {
+    margin-left: 6px;
+    font-weight: bold;
+    color: red;
+}
+
+/*浏览历史样式*/
+.history-list {
+    max-height: 280px;
+    overflow: hidden;
+}
+
+/*搜索数据样式*/
+.search-table {
+    margin: auto;
+    width: 100%;
+}
+
+.search-table .search-item {
+    border-bottom: 1px solid #e2e2e6;
+}
+
+.search-table .search-item td {
+    padding: 5px 0;
+    text-align: center;
+}
+
+/*提示数据样式*/
+.suggests {
+    display: none;
+}
+
+/*通用样式*/
+.hot-list li,
+.history-list li,
+.suggest-list li {
+    padding: 5px 0;
+    font-size: 16px;
+}
+
+.hot-list li:hover,
+.history-list li:hover,
+.suggest-list li:hover {
+    background-color: #efefef;
+}

@@ -1,0 +1,158 @@
+<% layout("layout") -%>
+<% block("styles").append('<link rel="stylesheet" href="/bower_components/jcarousel/jcarousel.css"/>') %>
+<% block("styles").append('<link rel="stylesheet" href="/bower_components/calculate/calculate.css"/>') %>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/detail.css"/>') %>
+
+<input type="hidden" name="msg" value="<%= msg %>">
+
+<header class="header clearfix">
+    <a class="header-side header-back" href="javascript:window.history.back(-1)"></a>
+    <h1 class="header-title">商品详情</h1>
+</header>
+
+<!--商品模块-->
+<% if(commodity){ %>
+<input id="commodityId" type="hidden" name="commodityId" value="<%= commodity._id %>">
+<!--图片列表-->
+<% var imgs = commodity.imgs; %>
+<% if(Array.isArray(imgs) && imgs.length > 0){ %>
+<section class="jcarousel">
+    <ul class="jcarousel-list">
+        <% imgs.forEach(function(item, index){ %>
+        <li class="jcarousel-item" data-index="<%= index %>">
+            <a class="jcarousel-link">
+                <img class="jcarousel-img" src="<%= htmlHelper.buildImgSrc(item) %>" alt="<%= commodity.name %>"/>
+            </a>
+        </li>
+        <% }) %>
+    </ul>
+    <ol class="jcarousel-indicator"></ol>
+</section>
+<% } %>
+<!--商品信息-->
+<% var units = commodity.units; %>
+<dl class="commodity-info">
+    <dt><%= commodity.name %></dt>
+    <dd>
+        <label>产地：</label>
+        <span><%= commodity.origin || "" %></span>
+    </dd>
+    <dd class="commodity-standards">
+        <label>规格：</label>
+        <% commodity.units.forEach(function(sitem, sindex){ %>
+        <% var son = sindex === 0 ? "standard-item on": "standard-item"; %>
+        <span class="<%= son %>"><%= sitem.standard %></span>
+        <% }) %>
+    </dd>
+    <dd class="commodity-prices">
+        <label>单价：</label>
+        <% commodity.units.forEach(function(pitem, pindex){ %>
+        <% var pon = pindex === 0 ? "price-item on": "price-item"; %>
+        <span class="<%= pon %>" data-unit="<%= JSON.stringify(pitem) %>">
+            <strong>&yen;<%= pitem.price %></strong>
+            <% if(pitem.discount < 1){ %>
+            <mark class="discount"><%= (pitem.discount * 10).toFixed(2) %>折</mark>
+            <% } %>
+        </span>
+        <% }) %>
+    </dd>
+    <dd class="clearfix">
+        <section class="calculate fr" id="commodityCalc" data-quantity="<%= commodityQuantity %>"></section>
+    </dd>
+</dl>
+<% } %>
+
+<!--团购模块-->
+<% if(groupon){ %>
+<!--正在开团列表-->
+<% if(Array.isArray(openGroupons) && openGroupons.length > 0){ %>
+<% var total = 0; %>
+<% openGroupons.forEach(function(item){ total += item.joinList.length; }); %>
+<section class="block">
+    <header class="block-header underline clearfix">
+        <a class="block-more arrow" href="/groupon/open-list?id=<%= groupon._id %>">查看更多</a>
+        <h2 class="block-title">
+            <mark><%= total %></mark>
+            人在参团
+        </h2>
+    </header>
+    <div class="block-body">
+        <ul class="open-list">
+            <% var population = groupon.population; %>
+            <% openGroupons.forEach(function(item){ %>
+            <% var diff = population - item.joinList.length; %>
+            <li class="open-item underline">
+                <figure class="figure figure-middle fl">
+                    <img src="<%= item.opener.avatar %>" alt="<%= item.opener.nickname %>">
+                </figure>
+                <dl class="commodity-info mrg-l75px">
+                    <dt><%= item.opener.nickname %></dt>
+                    <dd class="text-gray">还差<%= diff %>人</dd>
+                </dl>
+                <a class="btn btn-success" data-type="join" data-item="<%= JSON.stringify(item) %>">一键参团</a>
+            </li>
+            <% }) %>
+        </ul>
+    </div>
+</section>
+<% }%>
+<!--开团、参团弹出层-->
+<section class="popover">
+    <div class="popover-content">
+        <header class="popover-header clearfix">
+            <figure class="popover-img">
+                <% var src = htmlHelper.buildImgSrc(commodity.imgs); %>
+                <img src="<%= src %>" alt="<%= groupon.name %>">
+            </figure>
+            <a class="popover-close">&times;</a>
+            <h1 class="popover-title"><%= groupon.name %></h1>
+        </header>
+        <div class="popover-body">
+            <dl class="commodity-info">
+                <dd>
+                    <label>规格：</label>
+                    <span><%= groupon.standard %></span>
+                </dd>
+                <dd>
+                    <label>单价：</label>
+                    <strong class="text-red">&yen;<%= groupon.price %></strong>
+                </dd>
+                <dd class="clearfix">
+                    <section class="calculate fr" id="grouponCalc" data-quantity="1"></section>
+                </dd>
+                <dd>
+                    <form id="openGrouponForm" action="/groupon/open" method="post">
+                        <input type="hidden" name="id" value="<%= commodity._id %>" required>
+                        <input type="hidden" name="grouponId" value="<%= groupon._id %>" required>
+                        <input type="hidden" name="quantity" value="1" required>
+                        <input class="btn-green" type="submit" value="确定">
+                    </form>
+                    <form id="joinGrouponForm" action="/groupon/join" method="post">
+                        <input type="hidden" name="id" value="<%= commodity._id %>" required>
+                        <input type="hidden" name="openGrouponId" value="" required>
+                        <input type="hidden" name="quantity" value="1" required>
+                        <input class="btn-green" type="submit" value="确定">
+                    </form>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</section>
+<% } %>
+
+<footer class="footer overline clearfix">
+    <a class="footer-item fl" id="cartStatus" href="/cart/index">
+        <i class="bg-red" id="cartQuantity"><%= cartQuantity %></i>
+    </a>
+    <a class="footer-item fl text-red" id="wtotal">&yen;<mark class="text-red" id="total">0.00</mark></a>
+    <a class="footer-item fr text-white bg-red" data-action="1">立即购买</a>
+    <a class="footer-item fr text-white bg-yellow" data-action="0">加入购物车</a>
+    <% if(groupon){ %>
+    <a class="footer-item fr text-white bg-green" data-type="open">一键开团</a>
+    <% } %>
+</footer>
+
+<% block("scripts").append('<script src="/bower_components/jcarousel/touch.min.js"></script>') %>
+<% block("scripts").append('<script src="/bower_components/jcarousel/jcarousel.js"></script>') %>
+<% block("scripts").append('<script src="/bower_components/calculate/calculate.js"></script>') %>
+<% block("scripts").append('<script src="/javascripts/detail.js"></script>') %>

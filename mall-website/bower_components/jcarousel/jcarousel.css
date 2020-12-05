@@ -1,0 +1,140 @@
+﻿.jcarousel {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin-right: -5px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.jcarousel * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.jcarousel ul,
+.jcarousel ol,
+.jcarousel li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.jcarousel .jcarousel-list {
+    position: absolute;
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    *zoom: 1;
+}
+
+.jcarousel .jcarousel-list:after {
+    display: block;
+    height: 0;
+    content: "";
+    visibility: hidden;
+    overflow: hidden;
+    clear: both;
+}
+
+.jcarousel .jcarousel-list .jcarousel-item {
+    display: inline-block;
+    float: left;
+    overflow: hidden;
+}
+
+.jcarousel .jcarousel-list .jcarousel-item a.jcarousel-link {
+    position: relative;
+    display: block;
+    height: 100%;
+    margin: 0 5px;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.jcarousel .jcarousel-list .jcarousel-item a.jcarousel-link img.jcarousel-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.jcarousel .jcarousel-list .jcarousel-item a.jcarousel-link p.jcarousel-caption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.8;
+    color: white;
+    text-align: left;
+    text-indent: 10px;
+    letter-spacing: 1px;
+    background-color: black;
+    opacity: .4;
+}
+
+.jcarousel .jcarousel-list .jcarousel-item a.jcarousel-link p.jcarousel-caption span {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    z-index: 2;
+}
+
+.jcarousel .jcarousel-control {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 30px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background-color: black;
+    opacity: .5;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.jcarousel .jcarousel-control.next {
+    right: 10px;
+}
+
+.jcarousel .jcarousel-control.prev {
+    left: 10px;
+}
+
+/*提示图标样式*/
+.jcarousel .jcarousel-indicator {
+    position: absolute;
+    right: 15%;
+    bottom: 0;
+    left: 15%;
+    z-index: 3;
+    display: block;
+    text-align: center;
+}
+
+.jcarousel .jcarousel-indicator li {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 2px;
+    width: 10px;
+    height: 10px;
+    font-size: 12px;
+    border: 1px solid white;
+    border-radius: 100%;
+    background-color: rgba(100, 100, 100, .2);
+}
+
+.jcarousel .jcarousel-indicator li.active {
+    background-color: white;
+}

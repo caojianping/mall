@@ -1,0 +1,70 @@
+<% layout("layout") -%>
+<% block("styles").append('<link rel="stylesheet" href="/bower_components/calculate/calculate.css"/>') %>
+
+<header class="header clearfix">
+    <a class="header-side header-back" href="javascript:window.history.back(-1)"></a>
+    <h1 class="header-title">正在开团</h1>
+</header>
+
+<% if(groupon){ %>
+<% var population = groupon.population; %>
+<!--正在开团列表-->
+<% if(Array.isArray(data) && data.length > 0){ %>
+<ul class="open-list">
+    <% data.forEach(function(item){ %>
+    <% var diff = population - item.joinList.length; %>
+    <li class="open-item underline">
+        <figure class="figure figure-middle fl">
+            <img src="<%= item.opener.avatar %>" alt="<%= item.opener.nickname %>">
+        </figure>
+        <dl class="commodity-info mrg-l75px">
+            <dt><%= item.opener.nickname %></dt>
+            <dd class="text-gray">还差<%= diff %>人</dd>
+        </dl>
+        <a class="btn btn-success" data-type="join" data-item="<%= JSON.stringify(item) %>">一键参团</a>
+    </li>
+    <% }) %>
+</ul>
+<% }else{ %>
+<p class="none">暂无开团数据！</p>
+<% }%>
+<!--开团、参团弹出层-->
+<section class="popover">
+    <div class="popover-content">
+        <header class="popover-header clearfix">
+            <figure class="popover-img">
+                <% var src = htmlHelper.buildImgSrc(groupon.commodity.imgs); %>
+                <img src="<%= src %>" alt="<%= groupon.name %>">
+            </figure>
+            <a class="popover-close">&times;</a>
+            <h1 class="popover-title"><%= groupon.name %></h1>
+        </header>
+        <div class="popover-body">
+            <dl class="commodity-info">
+                <dt>
+                    <label>规格：</label>
+                    <span><%= groupon.standard %></span>
+                </dt>
+                <dt>
+                    <label>单价：</label>
+                    <strong class="text-red">&yen;<%= groupon.price %></strong>
+                </dt>
+                <dt class="clearfix">
+                    <section class="calculate fr" id="grouponCalc" data-quantity="1"></section>
+                </dt>
+                <dt>
+                    <form id="joinGrouponForm" action="/groupon/join" method="post">
+                        <input type="hidden" name="id" value="<%= groupon.commodity._id %>" required>
+                        <input type="hidden" name="openGrouponId" value="" required>
+                        <input type="hidden" name="quantity" value="1" required>
+                        <input class="btn-green" type="submit" value="确定">
+                    </form>
+                </dt>
+            </dl>
+        </div>
+    </div>
+</section>
+<% } %>
+
+<% block("scripts").append('<script src="/bower_components/calculate/calculate.js"></script>') %>
+<% block("scripts").append('<script src="/javascripts/open-list.js"></script>') %>

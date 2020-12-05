@@ -1,0 +1,36 @@
+body {
+    background: url("../Images/error/bg_error.png") no-repeat;
+    background-size: 100% auto;
+}
+
+.navs {
+    display: none;
+}
+
+.error {
+    padding-top: 50px;
+}
+
+.error .error-img {
+    margin: auto;
+    width: 80px;
+    height: 117.5px;
+    background: url("../Images/error/error.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.error p {
+    margin: 15px;
+    text-align: center;
+}
+
+.error .error-msg {
+    font-size: 16px;
+    color: rgb(127, 127, 127);
+    word-wrap: break-word;
+}
+
+.error .error-help {
+    font-size: 20px;
+    color: rgb(100, 100, 100);
+}

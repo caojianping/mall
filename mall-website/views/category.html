@@ -1,0 +1,38 @@
+<% layout("layout") -%>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/category.css" />') %>
+
+<header class="header">
+    <div class="toggle fl" data-toggle="1"><i></i></div>
+    <section class="search">
+        <a class="search-link" href="/commodity/search">美好生活，从七彩生活开始！</a>
+    </section>
+</header>
+
+<% if(Array.isArray(menus) && menus.length > 0){ %>
+<ul class="menus">
+    <% menus.forEach(function(item){ %>
+    <% var active = id.toString() === item._id.toString() ? "menu-item active": "menu-item"; %>
+    <li class="<%= active %>">
+        <a href="/commodity/category?id=<%= item._id %>"><%= item.name %></a>
+    </li>
+    <% }) %>
+</ul>
+<% } %>
+
+<section class="cates">
+    <% if(Array.isArray(data) && data.length > 0){ %>
+    <% data.forEach(function(item){ %>
+    <a class="cate-item" href="/commodity/list?id=<%= item._id %>&name=<%= item.name %>">
+        <figure class="figure figure-middle">
+            <% var src = htmlHelper.buildImgSrc(item.img, "/cates/"); %>
+            <img src="<%= src %>" alt="<%= item.name %>">
+        </figure>
+        <p><%= item.name %></p>
+    </a>
+    <% }) %>
+    <% }else{ %>
+    <p class="none">暂无数据！</p>
+    <% } %>
+</section>
+
+<% block("scripts").append('<script src="/javascripts/category.js"></script>') %>

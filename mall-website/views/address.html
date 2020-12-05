@@ -1,0 +1,85 @@
+<% layout("layout") -%>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/address.css" />') %>
+
+<% var args = "from=" + from + "&type=" + type; %>
+<input type="hidden" name="from" value="<%= from %>">
+<input type="hidden" name="type" value="<%= type %>">
+<input type="hidden" name="msg" value="<%= msg %>">
+
+<header class="header clearfix">
+    <a class="header-side header-back" href="/user/index"></a>
+    <h1 class="header-title">收货地址</h1>
+</header>
+
+<% if(Array.isArray(data) && data.length > 0){ %>
+<ul class="address-list">
+    <% data.forEach(function(item){ %>
+    <li class="address-item underline" data-address="<%= JSON.stringify(item) %>">
+        <p>
+            <span class="address-linkman"><%= item.linkman %></span>
+            <strong class="address-contact"><%= item.contact %></strong>
+            <% if(item.isDefault){ %>
+            <i class="address-default text-red">[默认地址]</i>
+            <% }else{ %>
+            <a class="address-default text-blue" href="/address/setDefault?<%= args %>&id=<%= item._id %>">设置默认</a>
+            <% } %>
+        </p>
+        <p>
+            <mark class="address-mark text-orange"><%= item.mark ? "[" + item.mark + "]": "" %></mark>
+            <span class="address-location text-gray"><%= item.location %></span>
+        </p>
+    </li>
+    <% }) %>
+</ul>
+<% }else{ %>
+<p class="none">亲，您还没有添加收货地址哦！</p>
+<% }%>
+
+<section class="panel">
+    <header class="panel-header clearfix">
+        <a class="panel-side panel-close"></a>
+        <form class="fr" action="/address/remove?<%= args %>" method="get">
+            <input type="hidden" name="id" value="">
+            <input class="panel-side fr" id="remove" type="submit" value="删除">
+        </form>
+        <h1 class="panel-title"></h1>
+    </header>
+    <div class="panel-body">
+        <form id="addressForm" action="/address/add?<%= args %>" method="post">
+            <input type="hidden" name="_id" value="">
+            <ul>
+                <li class="underline">
+                    <label for="linkman">联系人：</label>
+                    <input id="linkman" type="text" name="linkman" placeholder="联系人" required="required">
+                </li>
+                <li class="underline">
+                    <label for="contact">联系方式：</label>
+                    <input id="contact" type="text" name="contact" placeholder="联系方式" required="required">
+                </li>
+                <li class="underline">
+                    <label for="location">收货地址：</label>
+                    <textarea id="location" name="location" cols="30" rows="3" placeholder="收货地址"
+                              required="required"></textarea>
+                </li>
+                <li class="underline">
+                    <label for="mark">标签：</label>
+                    <select id="mark" name="mark">
+                        <option value="">请选择标签</option>
+                        <option value="家">家</option>
+                        <option value="公司">公司</option>
+                        <option value="学校">学校</option>
+                    </select>
+                </li>
+                <li>
+                    <input type="submit" value="确定">
+                </li>
+            </ul>
+        </form>
+    </div>
+</section>
+
+<footer class="footer overline">
+    <a class="footer-item text-blue" id="add">添加新地址</a>
+</footer>
+
+<% block("scripts").append('<script src="/javascripts/address.js"></script>') %>

@@ -1,0 +1,71 @@
+<% layout("layout") -%>
+<% block("styles").append('<link rel="stylesheet" href="/bower_components/calculate/calculate.css" />') %>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/cart.css" />') %>
+
+<% var total = 0; %>
+<header class="header clearfix">
+    <a class="header-side header-back" href="javascript:window.history.back(-1)"></a>
+    <span class="header-side fr text-white" id="edit">编辑</span>
+    <h1 class="header-title text-center">我的购物车</h1>
+</header>
+
+<% if(Array.isArray(data) && data.length > 0){ %>
+<form id="cartForm" action="/cart/remove" method="post">
+    <table class="cart-table">
+        <% data.forEach(function(item,index){ %>
+        <% var commodity = item.commodity || {}; %>
+        <% var unit = item.unit || {}; %>
+        <% var money = item.flag ? unit.price * item.quantity * unit.discount: 0; %>
+        <tr class="cart-item">
+            <td>
+                <% var checked = item.flag ? " checked": ""; %>
+                <label class="checkbox<%= checked %>" data-cart="<%= JSON.stringify(item) %>">
+                    <input type="checkbox" name="ids" value="<%= item._id %>"<%= checked %>>
+                    <i class="checkbox-icon"></i>
+                </label>
+            </td>
+            <td>
+                <% var src = htmlHelper.buildImgSrc(commodity.imgs); %>
+                <figure class="figure figure-large">
+                    <img src="<%= src %>" alt="<%= commodity.name %>">
+                </figure>
+            </td>
+            <td>
+                <dl class="commodity-info">
+                    <dt><%= commodity.name %></dt>
+                    <dd>
+                        <label>规格：</label>
+                        <span><%= unit.standard || "" %></span>
+                    </dd>
+                    <dd>
+                        <label>单价：</label>
+                        <strong class="text-red">&yen;<%= unit.price.toFixed(2) %></strong>
+                        <% if(unit.discount < 1){ %>
+                        <mark class="discount"><%= (unit.discount * 10).toFixed(2) %>折</mark>
+                        <% } %>
+                    </dd>
+                    <dd class="clearfix">
+                        <div class="calculate fr" data-quantity="<%= item.quantity %>"></div>
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+        <% total += money; %>
+        <% }) %>
+    </table>
+</form>
+
+<footer class="footer overline clearfix">
+    <label class="footer-item fl checkbox checkbox-all">
+        <i class="checkbox-icon"></i><span class="checkbox-content">全选</span>
+    </label>
+    <a class="footer-item fr bg-green text-white" id="settle">去结算</a>
+    <a class="footer-item fr bg-white text-red" id="wtotal">合计：&yen;<mark class="text-red" id="total"><%= total.toFixed(2) %></mark></a>
+    <a class="footer-item fr bg-orange text-white" id="remove">删除</a>
+</footer>
+<% }else{ %>
+<p class="none">您的购物车空空如也！快去逛逛吧！</p>
+<% } %>
+
+<% block("scripts").append('<script src="/bower_components/calculate/calculate.js"></script>') %>
+<% block("scripts").append('<script src="/javascripts/cart.js"></script>') %>

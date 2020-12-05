@@ -1,0 +1,302 @@
+<% layout("admin/layout-admin") -%>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/admin/commodity.css"/>') %>
+
+<ol class="breadcrumb crumb">
+    <li><a href="#">CMS</a></li>
+    <li><a href="#">商品管理</a></li>
+</ol>
+
+<div class="container" ng-app="commodityApp" ng-controller="pageCtrl">
+    <section class="panel panel-default">
+        <header class="panel-heading">
+            <h3 class="panel-title">商品搜索</h3>
+        </header>
+        <div class="panel-body">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>商品名称：</label>
+                    <input class="form-control" type="text" ng-model="querystring.name">
+                </div>
+                <div class="form-group mrg-l15px">
+                    <label>商品分类：</label>
+                    <select class="form-control" ng-model="querystring.category">
+                        <option ng-repeat="item in categories"
+                                ng-selected="querystring.category==item.value"
+                                value="{{item.value}}">{{item.name}}
+                        </option>
+                    </select>
+                </div>
+                <br/>
+                <div class="form-group mrg-t10px">
+                    <label>商品产地：</label>
+                    <input class="form-control" type="text" ng-model="querystring.origin">
+                </div>
+                <div class="form-group mrg-t10px mrg-l15px">
+                    <label>是否开团：</label>
+                    <select class="form-control" ng-model="querystring.groupon">
+                        <option value="">请选择团购状态</option>
+                        <option value="1">已开团</option>
+                        <option value="0">未开团</option>
+                    </select>
+                </div>
+                <div class="form-group mrg-t10px mrg-l30px">
+                    <a class="btn btn-default" ng-click="search()">查询</a>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="panel panel-default" ng-controller="commodityCtrl">
+        <header class="panel-heading relative">
+            <h3 class="panel-title">查询条目：<span class="text-success">{{totalCount}}</span></h3>
+            <a class="btn btn-primary add" data-toggle="modal" href="#commodityModal" ng-click="add()">添加</a>
+        </header>
+        <div class="panel-body">
+            <table class="table table-striped table-hover table-responsive">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>产地</th>
+                    <th>单价/折扣/库存</th>
+                    <th>分类</th>
+                    <th>图片</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in dataList">
+                    <td>{{$index + 1}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.origin}}</td>
+                    <td>
+                        <ul class="list-none">
+                            <li ng-repeat="uitem in item.units">
+                                <span class="text-price">{{uitem.standard}}/&yen;{{uitem.price.toFixed(2)}}</span>
+                                <span class="{{uitem.discount < 1 ? 'discount': ''}}">
+                                    {{uitem.discount < 1 ? (uitem.discount * 10).toFixed(1) + '折': '' }}
+                                </span>
+                                <span>{{uitem.stock}}</span>
+                            </li>
+                        </ul>
+                    </td>
+                    <td>{{item.category.name}}</td>
+                    <td>
+                        <img class="thumbnail" ng-repeat="mitem in item.imgs"
+                             ng-src="{{buildImgSrc(mitem)}}"
+                             alt="{{item.name}}"
+                             width="35" height="35">
+                    </td>
+                    <td>
+                        <a data-toggle="modal" href="#commodityModal" ng-click="edit(item)">编辑</a>
+                        <a class="text-danger" ng-click="remove(item._id)">删除</a>
+                        <a data-toggle="modal" href="#grouponModal" ng-click="setGroupon(item)">
+                            {{item.groupon?"编辑团购":"开启团购"}}
+                        </a>
+                        <a class="text-danger" ng-show="item.groupon"
+                           ng-click="removeGroupon(item.groupon?item.groupon._id:'')">取消团购</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <section class="modal fade" id="commodityModal">
+                <div class="modal-dialog mw900px">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">{{mode==="add"?"添加商品":"编辑商品"}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!--商品表单-->
+                            <form class="form-horizontal" id="commodityForm" enctype="multipart/form-data"
+                                  method="post">
+                                <input type="hidden" name="_id" ng-model="commodity._id">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">商品名称：</label>
+                                    <div class="col-lg-5">
+                                        <input class="form-control" type="text" name="name" ng-model="commodity.name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">商品简介：</label>
+                                    <div class="col-lg-5">
+                                        <textarea class="form-control" name="intro" ng-model="commodity.intro"
+                                                  cols="26" rows="2"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">商品产地：</label>
+                                    <div class="col-lg-5">
+                                        <input class="form-control" type="text" name="origin"
+                                               ng-model="commodity.origin">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">商品分类：</label>
+                                    <div class="col-lg-5">
+                                        <select class="form-control" name="category" ng-model="commodity.category">
+                                            <option ng-repeat="item in categories"
+                                                    ng-selected="commodity.category==item.value"
+                                                    value="{{item.value}}">{{item.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">价格单位：</label>
+                                    <div class="col-lg-6">
+                                        <table class="table table-bordered utbl">
+                                            <thead>
+                                            <tr>
+                                                <th>规格</th>
+                                                <th>单价</th>
+                                                <th>折扣</th>
+                                                <th>库存</th>
+                                                <th>描述</th>
+                                                <th class="w80px">
+                                                    <a class="btn btn-default btn-sm" ng-click="addUnit()">添加</a>
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="item in commodity.units | filter:{'isDelete': false}">
+                                                <td>
+                                                    <input type="hidden" ng-model="item._id">
+                                                    {{item.standard}}
+                                                </td>
+                                                <td>{{item.price}}</td>
+                                                <td>{{item.discount}}</td>
+                                                <td>{{item.stock}}</td>
+                                                <td>{{item.desc}}</td>
+                                                <td>
+                                                    <a class="btn btn-default btn-sm" ng-click="editUnit(item)">编辑</a>
+                                                    <a class="btn btn-danger btn-sm" ng-click="removeUnit(item)">删除</a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr id="unitForm" ng-show="unitShow">
+                                                <td>
+                                                    <input type="hidden" ng-model="unit._id">
+                                                    <input type="text" ng-model="unit.standard">
+                                                </td>
+                                                <td><input type="number" ng-model="unit.price"></td>
+                                                <td><input type="number" ng-model="unit.discount"></td>
+                                                <td><input type="number" ng-model="unit.stock"></td>
+                                                <td><input type="text" ng-model="unit.desc"></td>
+                                                <td>
+                                                    <a class="btn btn-default btn-sm" ng-click="saveUnit()">保存</a>
+                                                    <a class="btn btn-danger btn-sm" ng-click="unitShow=false">删除</a>
+                                                </td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-show="mode==='add'">
+                                    <label class="col-lg-3 control-label">添加图片：</label>
+                                    <div class="col-lg-5">
+                                        <input class="form-control" type="file" name="imgs" accept="image/jpeg" multiple>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--图片表单-->
+                            <form class="form-horizontal" id="imgForm" enctype="multipart/form-data" method="post">
+                                <div class="form-group" ng-show="mode==='edit'">
+                                    <label class="col-lg-3 control-label">图片列表：</label>
+                                    <div class="col-lg-9 img-list">
+                                        <div class="img-item" ng-repeat="img in commodity.imgs">
+                                            <a ng-click="removeImg(commodity._id, img)">&times;</a>
+                                            <img ng-src="{{buildImgSrc(img)}}" alt="" width="80" height="80">
+                                        </div>
+                                        <div class="img-item img-add" ng-show="mode==='edit'">
+                                            <a ng-click="addImg(commodity._id)">&plus;</a>
+                                            <input type="file" name="img" accept="image/jpeg"
+                                                   onchange="angular.element(this).scope().addImg()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-dismiss="modal" ng-click="save()">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="modal fade" id="grouponModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">{{groupon?"编辑团购":"开启团购"}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" id="grouponForm">
+                                <input type="hidden" name="_id" ng-model="groupon._id">
+                                <input type="hidden" name="commodity" ng-model="groupon.commodity">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">团购名称：</label>
+                                    <div class="col-lg-7">
+                                        <input class="form-control" type="text" name="name" ng-model="groupon.name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">团购简介：</label>
+                                    <div class="col-lg-7">
+                                        <textarea class="form-control" name="intro" ng-model="groupon.intro"
+                                                  cols="26" rows="2"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">团购价格：</label>
+                                    <div class="col-lg-7">
+                                        <input class="form-control" type="number" name="price" ng-model="groupon.price">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">团购规格：</label>
+                                    <div class="col-lg-7">
+                                        <input class="form-control" type="text" name="standard"
+                                               ng-model="groupon.standard">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">开团人数：</label>
+                                    <div class="col-lg-7">
+                                        <input class="form-control" type="number" name="population"
+                                               ng-model="groupon.population">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">开始时间：</label>
+                                    <div class="col-lg-7">
+                                        <input class="form-control" type="datetime" name="startTime"
+                                               ng-model="groupon.startTime" value="groupon.startTime | date: 'yyyy/MM/dd HH:mm'">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">结束时间：</label>
+                                    <div class="col-lg-7">
+                                        <input class="form-control" type="datetime" name="endTime"
+                                               ng-model="groupon.endTime" value="groupon.endTime | date: 'yyyy/MM/dd HH:mm'">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-dismiss="modal" ng-click="saveGroupon()">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <% include ../includes/page.html %>
+</div>
+
+<% block("scripts").append('<script src="/javascripts/admin/services/commodity.service.js"></script>') %>
+<% block("scripts").append('<script src="/javascripts/admin/controllers/commodity.controller.js"></script>') %>

@@ -1,0 +1,18 @@
+.table thead tr th,
+.table tr td {
+    text-align: center;
+    white-space: nowrap;
+    border-bottom: none;
+}
+
+.utbl .btn {
+    padding: 4px;
+    line-height: 1;
+}
+
+.utbl input {
+    width: 80px;
+    text-indent: 3px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

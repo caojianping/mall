@@ -1,0 +1,65 @@
+<% layout("admin/layout-bootstrap") -%>
+<% block("styles").append('<link rel="stylesheet" href="/stylesheets/admin/login.css" />') %>
+
+<article class="container">
+    <!--登录标题-->
+    <section class="row">
+        <header class="col-lg-8 col-lg-offset-2 login-title">
+            <h1>七彩空间生活馆CMS系统</h1>
+            <p>七彩空间生活馆，美好生活，从七彩空间生活馆开始！</p>
+        </header>
+    </section>
+
+    <!--登录框-->
+    <section class="row">
+        <div class="col-lg-6 col-lg-offset-3 login-box">
+            <header class="login-box-header">
+                <h2 class="login-box-title">七彩空间生活馆CMS登录</h2>
+            </header>
+            <div class="login-box-body">
+                <form id="loginForm" action="/admin/account/login" method="post">
+                    <!--账号-->
+                    <div class="form-group">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input class="form-control" id="username" type="text" name="username" placeholder="账号" required>
+                        </div>
+                    </div>
+                    <!--密码-->
+                    <div class="form-group">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input class="form-control" id="password" type="password" name="password" placeholder="密码" required>
+                        </div>
+                    </div>
+                    <!--记住我-->
+                    <div class="form-group clearfix">
+                        <div class="input-group input-group-lg pull-right">
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="rememberMe" value="true" checked>记住我！</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--登录-->
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-lg">登录</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <% if(msg){ %>
+    <!--登录消息-->
+    <section class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <div class="alert alert-danger">
+                <button class="close" data-dismiss="alert">&times;</button>
+                <strong><%= msg %></strong>
+            </div>
+        </div>
+    </section>
+    <% } %>
+</article>
+
+<% block("scripts").append('<script src="/javascripts/admin/login.js"></script>') %>

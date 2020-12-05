@@ -1,0 +1,42 @@
+<% layout("admin/layout-admin") -%>
+
+<ol class="breadcrumb crumb">
+    <li><a href="#">CMS</a></li>
+    <li><a href="#">安全中心</a></li>
+</ol>
+
+<div class="container">
+    <% if(msg){ %>
+    <div class="row mrg-t30px">
+        <div class="col-lg-6 col-lg-offset-3">
+            <div class="alert alert-danger">
+                <button class="close" data-dismiss="alert">&times;</button>
+                <strong id="msg" data-msg="<%= msg %>"></strong>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <div class="row mrg-t30px">
+        <form class="col-lg-6 col-lg-offset-3" action="/admin/account/password" method="post">
+            <div class="form-group">
+                <label class="control-label pdg-tb10px" for="oldPwd">原密码：</label>
+                <input class="form-control" id="oldPwd" type="password" name="oldPwd" placeholder="输入原密码" required>
+            </div>
+            <div class="form-group">
+                <label class="control-label pdg-tb10px" for="newPwd">新密码：</label>
+                <input class="form-control" id="newPwd" type="password" name="newPwd" placeholder="输入新密码" required>
+            </div>
+            <div class="form-group">
+                <label class="control-label pdg-tb10px" for="confirmPwd">确认新密码：</label>
+                <input class="form-control" id="confirmPwd" type="password" name="confirmPwd" placeholder="再次输入新密码" required>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary btn-lg w100" type="submit" value="保存">
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<% block("scripts").append('<script src="/javascripts/admin/secure.js"></script>') %>
